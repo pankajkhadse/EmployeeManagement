@@ -7,16 +7,19 @@ namespace EmployeeManagement
 {
     public partial class Department : System.Web.UI.Page
     {
-// ============================================
-// PAGE LOAD
-// ============================================
+        // ============================================
+        // PAGE LOAD
+        // ============================================
 
-    protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 LoadEmployees();
                 LoadDepartments();
+
+                btnAdd.Visible = true;
+                btnUpdate.Visible = false;
             }
         }
 
@@ -25,53 +28,84 @@ namespace EmployeeManagement
         // LOAD EMPLOYEES INTO DROPDOWN
         // ============================================
 
-        private void LoadEmployees()
+        private void LoadEmployees(int? selectedEmployeeId = null)
         {
             string connectionString =
                 ConfigurationManager
                 .ConnectionStrings["EmployeeDbConnection"]
                 .ConnectionString;
 
-            string query = @"
-        SELECT
-            e.Emp_Id,
-            e.Emp_Name
-        FROM Employee e
-        LEFT JOIN Department d
-            ON e.Emp_Id = d.Emp_Id
-        WHERE d.Emp_Id IS NULL
-        ORDER BY e.Emp_Name";
+            string query;
 
+            if (selectedEmployeeId.HasValue)
+            {
+                // EDIT MODE
+                // Show employees who have no department
+                // OR the employee currently being edited
+
+                query = @"
+            SELECT
+                e.Emp_Id,
+                e.Emp_Name
+            FROM Employee e
+            LEFT JOIN Department d
+                ON e.Emp_Id = d.Emp_Id
+            WHERE d.Emp_Id IS NULL
+               OR e.Emp_Id = @EmpId
+            ORDER BY e.Emp_Name";
+            }
+            else
+            {
+                // ADD MODE
+                // Show only employees without a department
+
+                query = @"
+            SELECT
+                e.Emp_Id,
+                e.Emp_Name
+            FROM Employee e
+            LEFT JOIN Department d
+                ON e.Emp_Id = d.Emp_Id
+            WHERE d.Emp_Id IS NULL
+            ORDER BY e.Emp_Name";
+            }
 
             using (SqlConnection connection =
                    new SqlConnection(connectionString))
             {
-                using (SqlDataAdapter adapter =
-                       new SqlDataAdapter(query, connection))
+                using (SqlCommand command =
+                       new SqlCommand(query, connection))
                 {
-                    System.Data.DataTable dt =
-                        new System.Data.DataTable();
-
-                    adapter.Fill(dt);
-
-                    ddlEmployee.Items.Clear();
-
-                    ddlEmployee.Items.Add(
-                        new ListItem(
-                            "-- Select Employee --",
-                            ""));
-
-                    foreach (System.Data.DataRow row in dt.Rows)
+                    if (selectedEmployeeId.HasValue)
                     {
+                        command.Parameters.AddWithValue(
+                            "@EmpId",
+                            selectedEmployeeId.Value);
+                    }
+
+                    connection.Open();
+
+                    using (SqlDataReader reader =
+                           command.ExecuteReader())
+                    {
+                        ddlEmployee.Items.Clear();
+
                         ddlEmployee.Items.Add(
                             new ListItem(
-                                row["Emp_Name"].ToString(),
-                                row["Emp_Id"].ToString()));
+                                "-- Select Employee --",
+                                ""));
+
+                        while (reader.Read())
+                        {
+                            ddlEmployee.Items.Add(
+                                new ListItem(
+                                    reader["Emp_Name"].ToString(),
+                                    reader["Emp_Id"].ToString()));
+                        }
                     }
                 }
             }
         }
-
 
         // ============================================
         // ADD DEPARTMENT
@@ -263,27 +297,24 @@ namespace EmployeeManagement
         // ============================================
 
         protected void btnEdit_Command(
-            object sender,
-            CommandEventArgs e)
+     object sender,
+     CommandEventArgs e)
         {
             int empId =
                 Convert.ToInt32(e.CommandArgument);
 
-            // Store Employee ID for UPDATE
             hfDepartmentEmpId.Value =
                 empId.ToString();
+
+            // Reload dropdown including the employee
+            // currently being edited
+            LoadEmployees(empId);
 
             LoadDepartmentByEmployeeId(empId);
 
             btnAdd.Visible = false;
-
             btnUpdate.Visible = true;
-
-            btnCancel.Visible = true;
-
-            lblMessage.Text = "";
         }
-
 
         // ============================================
         // LOAD SINGLE DEPARTMENT
@@ -325,8 +356,13 @@ namespace EmployeeManagement
                         if (reader.Read())
                         {
                             // Select employee in dropdown
-                            ddlEmployee.SelectedValue =
-                                reader["Emp_Id"].ToString();
+                            string employeeId =
+                             reader["Emp_Id"].ToString();
+
+                            if (ddlEmployee.Items.FindByValue(employeeId) != null)
+                            {
+                                ddlEmployee.SelectedValue = employeeId;
+                            }
 
                             // Load department name
                             txtDptName.Text =
@@ -461,7 +497,7 @@ namespace EmployeeManagement
             // ============================================
             // SUCCESS
             // ============================================
-
+            
             lblMessage.Text =
                 "Department updated successfully.";
 
@@ -470,11 +506,9 @@ namespace EmployeeManagement
             hfDepartmentEmpId.Value = "";
 
             btnAdd.Visible = true;
-
             btnUpdate.Visible = false;
 
-            btnCancel.Visible = false;
-
+            // Reload only employees without departments
             LoadEmployees();
 
             LoadDepartments();
