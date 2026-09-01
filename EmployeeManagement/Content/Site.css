@@ -1,0 +1,334 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+
+/* =========================================
+   NAVBAR
+   ========================================= */
+
+.app-navbar {
+    background: linear-gradient(135deg, #172554, #1d4ed8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-brand {
+    font-size: 1.15rem;
+}
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 10px 15px !important;
+    border-radius: 8px;
+    margin-left: 4px;
+    transition: 0.2s ease;
+}
+
+    .navbar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.14);
+        color: white !important;
+    }
+
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
+.main-content {
+    min-height: calc(100vh - 130px);
+    padding: 40px 15px;
+}
+
+
+/* =========================================
+   PAGE HEADER
+   ========================================= */
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+    .page-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #64748b;
+        margin: 0;
+    }
+
+
+/* =========================================
+   DASHBOARD
+   ========================================= */
+
+.dashboard-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.dashboard-hero {
+    background: linear-gradient(135deg, #172554, #2563eb);
+    color: white;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+}
+
+    .dashboard-hero h1 {
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-hero p {
+        margin: 0;
+        opacity: 0.9;
+    }
+
+
+/* =========================================
+   MANAGEMENT CARDS
+   ========================================= */
+
+.management-card {
+    background: white;
+    border: none;
+    border-radius: 18px;
+    padding: 30px;
+    height: 100%;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .management-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    }
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.employee-icon {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.department-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.management-card h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.management-card p {
+    color: #64748b;
+    min-height: 45px;
+}
+
+
+/* =========================================
+   MANAGEMENT PAGE
+   ========================================= */
+
+.management-container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.form-card {
+    background: white;
+    border: none;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.07);
+    margin-bottom: 30px;
+}
+
+    .form-card h3 {
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+
+/* =========================================
+   FORM
+   ========================================= */
+
+.form-label-custom {
+    font-weight: 600;
+    margin-bottom: 7px;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+    .form-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn-primary-custom {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+    .btn-primary-custom:hover {
+        background: #1d4ed8;
+        color: white;
+    }
+
+.btn-secondary-custom {
+    background: #64748b;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   TABLE
+   ========================================= */
+
+.table-card {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.07);
+    overflow-x: auto;
+}
+
+    .table-card h3 {
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+.data-grid {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+    .data-grid th {
+        background: #f1f5f9;
+        padding: 13px;
+        text-align: left;
+        font-weight: 700;
+        color: #334155;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .data-grid td {
+        padding: 13px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .data-grid tr:hover {
+        background: #f8fafc;
+    }
+
+
+/* =========================================
+   MESSAGE
+   ========================================= */
+
+.success-message {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #dcfce7;
+    color: #166534;
+}
+
+.error-message {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.app-footer {
+    background: #172554;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 20px 0;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .main-content {
+        padding: 25px 12px;
+    }
+
+    .dashboard-hero {
+        padding: 28px 22px;
+    }
+
+        .dashboard-hero h1 {
+            font-size: 1.6rem;
+        }
+
+    .management-card {
+        padding: 25px;
+    }
+
+    .form-card {
+        padding: 22px;
+    }
+
+    .page-header h1 {
+        font-size: 1.6rem;
+    }
+}
