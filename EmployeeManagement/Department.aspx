@@ -10,7 +10,6 @@ ID="Content1"
 ContentPlaceHolderID="MainContent"
 runat="server">
 
-```
 <div class="management-container">
 
 
@@ -277,6 +276,6 @@ runat="server">
     </div>
 
 </div>
-```
+
 
 </asp:Content>

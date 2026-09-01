@@ -18,3 +18,5 @@ App_Data/*.ldf
 
 # Logs
 *.log
+config.bat
+node_modules
